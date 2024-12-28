@@ -14,9 +14,8 @@ import Juego_del_ahorcado_medio as jm
 class Juego:
     def __init__(self,ventana):
         self.ventana = ventana
+        #Inizializando tipo de fuente para todo el juego
         self.defaultFont = font.nametofont("TkDefaultFont") 
-        # Overriding default-font with custom settings 
-        # i.e changing font-family, size and weight 
         self.defaultFont.configure(family="ALiberationSans-Italic", size=19, weight=font.BOLD)
 
         self.ventana.geometry('1280x720')      
@@ -29,7 +28,7 @@ class Juego:
         self.label1 = Label(self.ventana, image=imagen)
         self.label1.image = imagen
         self.label1.place(x=0,y=0)
-    #Creacion de los bonones para elegir el nivel de dificultad conque se desea jugar
+    #Creacion de los botones para elegir el nivel de dificultad conque se desea jugar
         grado_dificultad = ['FACIL', 'MEDIO', 'DIFICIL']
         self.elegirdif = Label(self.label1,text='Elija dificultad',font=f'Helvetica 20 bold',bg='light green').place(x= 500,y=500)
         

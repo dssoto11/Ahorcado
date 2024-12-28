@@ -41,7 +41,7 @@ class JuegoDelAhorcado:
         self.mostrar_palabra = Label(self.ventana,text=" _ " * self.longitud,font=("Arial",20), bg='white')
         self.mostrar_palabra.pack(pady=10)
 
-        self.boton_reinicio = Button(self.ventana,text='REINICIAR',command=self.reiniciar,font="italic", width=10, height=2,fg='red',bg='light green')
+        self.boton_reinicio = Button(self.ventana,text='REINICIAR',command=self.reiniciar, width=10, height=2,fg='red',bg='light green')
         self.boton_reinicio.pack(pady=10)
         
         self.botones_del_alfabeto()
@@ -62,28 +62,43 @@ class JuegoDelAhorcado:
         for letra in self.primera_mitad:
             self.botton_letra = Button(self.ventana_primera_mitad, text=letra, command=lambda l=letra: self.adivinar_letra(l), width=4, height=2,font="consolas 10 bold",fg='black',bg='light green')
             self.botton_letra.pack(side='left',padx=2,pady=2)
+            
 
         for letra in self.segunda_mitad:
             self.botton_letra= Button(self.ventana_segunda_mitad, text=letra, command=lambda l=letra: self.adivinar_letra(l), width=4, height=2,font="consolas 10 bold",fg='black',bg='light green')
             self.botton_letra.pack(side='left',padx=2,pady=2)
+            
       
 
     #Comparacion de las letras elegidas con la palabra secreta, almazenamos en los sets de intentos correctos
-    #o incorrectos segun sea el caso, de ser incorrectos vamos restando el numero de intentos incorrectos, y 
+    #o incorrectos segun sea el caso, de ser incorrectos vamos restando el numero de intentos incorrectos,  
     def adivinar_letra(self,letra):
+        self.letra = letra
         if letra in self.palabra_secreta and letra not in self.intentos_correctos:
             self.intentos_correctos.add(letra)
-            if letra in self.intentos_correctos:
-                self.botton_letra.configure(state=DISABLED)
-                    
+
         elif letra not in self.intentos_incorrectos:
             self.intentos_incorrectos.add(letra)
             self.num_intentos_incorrectos -= 1
             self.actualizar_dibujo_ahorcado()
-    
-    #Vamos chequeamos si el juego se gano o se perdio
+        
+        #Chequeamos si el juego se gano o se perdio
         self.actualizar_mostrar_palabra()
-        self.chequear_condicion_ganadora()
+        self.chequear_condicion_ganadora()       
+        self.actualizar_inabilitar_letra(letra)
+    
+    def actualizar_inabilitar_letra(self,letra):
+        print(letra)
+    
+        for letra in self.ventana_botones_alfabeto:
+            if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
+                self.botton_letra.config(state='disabled')
+
+        for letra in self.segunda_mitad:
+            if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
+                self.botton_letra.config(state='disabled')
+      
+        
     #Vamos actualizando la palabra mostrada, segun vamos adivinando letras
     def actualizar_mostrar_palabra(self):
         mostrar_palabra = " ".join([letra if letra in self.intentos_correctos else "_" for letra in self.palabra_secreta])
@@ -94,12 +109,12 @@ class JuegoDelAhorcado:
         if set(self.palabra_secreta).issubset(self.intentos_correctos):
             self.mostrar_mensajes('FELICIDADES!, HA GANADO EL JUEGO')
         elif self.num_intentos_incorrectos == 0:
-            self.mostrar_mensajes(f'LO SENTIMOS!, HA CONSUMIDO TODOS LOS INTENTOS, LA PALABRA SECRETA ERA {self.palabra_secreta}')
-
+            self.mostrar_mensajes(f'LO SENTIMOS!, HA CONSUMIDO TODOS LOS INTENTOS, LA PALABRA SECRETA ERA:')
+            self.mostrar_mensajes(f' "{self.palabra_secreta}" ')
     # y mostramos el mensaje correspondiente en cada caso
     def mostrar_mensajes(self,mensaje):
-        self.ventana_botones_alfabeto.pack_forget() # quitar botones del alfabero para mostrar mensajes
-        self.mensajes_fin_juego = Label(self.ventana,text=mensaje,fg= 'red',bg="light blue",font=("Segoe Script",10))
+        self.ventana_botones_alfabeto.pack_forget() # quitar botones del alfabeto para mostrar mensajes
+        self.mensajes_fin_juego = Label(self.ventana,text=mensaje,fg='red',bg="light blue")
         self.mensajes_fin_juego.pack(pady=10)
 
 

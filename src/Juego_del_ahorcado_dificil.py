@@ -172,11 +172,13 @@ class JuegoDelAhorcado:
 
     def reiniciar (self):
         m.Juego(self.ventana)
+        self.mensajes_fin_juego.pack_forget()
         self.mostrar_palabra.pack_forget()
         self.ventana_botones_alfabeto.pack_forget()
         self.ventana2.pack_forget()
         self.boton_reinicio.pack_forget()
-        self.mensajes_fin_juego.pack_forget()
+        
+        
         
         
         

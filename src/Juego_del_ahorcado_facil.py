@@ -85,8 +85,8 @@ class JuegoDelAhorcado:
         #Chequeamos si el juego se gano o se perdio
         self.actualizar_mostrar_palabra()
         self.chequear_condicion_ganadora()       
-        self.actualizar_inabilitar_letra(letra)
-    
+        #self.actualizar_inabilitar_letra(letra)
+    '''
     def actualizar_inabilitar_letra(self,letra):
         print(letra)
     
@@ -98,7 +98,7 @@ class JuegoDelAhorcado:
             if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
                 self.botton_letra.config(state='disabled')
       
-        
+    '''   
     #Vamos actualizando la palabra mostrada, segun vamos adivinando letras
     def actualizar_mostrar_palabra(self):
         mostrar_palabra = " ".join([letra if letra in self.intentos_correctos else "_" for letra in self.palabra_secreta])
@@ -188,12 +188,16 @@ class JuegoDelAhorcado:
     
 
     def reiniciar (self):
+        
         m.Juego(self.ventana)
         self.mostrar_palabra.pack_forget()
         self.ventana_botones_alfabeto.pack_forget()
         self.ventana2.pack_forget()
         self.boton_reinicio.pack_forget()
-        self.mensajes_fin_juego.pack_forget()
+        #self.mensajes_fin_juego.deletecommand(name=self.mostrar_mensajes)
+        
+
+        
         
         
         

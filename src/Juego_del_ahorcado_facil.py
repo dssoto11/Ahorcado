@@ -73,7 +73,6 @@ class JuegoDelAhorcado:
     #Comparacion de las letras elegidas con la palabra secreta, almazenamos en los sets de intentos correctos
     #o incorrectos segun sea el caso, de ser incorrectos vamos restando el numero de intentos incorrectos,  
     def adivinar_letra(self,letra):
-        self.letra = letra
         if letra in self.palabra_secreta and letra not in self.intentos_correctos:
             self.intentos_correctos.add(letra)
 
@@ -85,12 +84,8 @@ class JuegoDelAhorcado:
         #Chequeamos si el juego se gano o se perdio
         self.actualizar_mostrar_palabra()
         self.chequear_condicion_ganadora()       
-        #self.actualizar_inabilitar_letra(letra)
-    '''
-    def actualizar_inabilitar_letra(self,letra):
-        print(letra)
     
-        for letra in self.ventana_botones_alfabeto:
+        for letra in self.primera_mitad:
             if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
                 self.botton_letra.config(state='disabled')
 
@@ -98,7 +93,7 @@ class JuegoDelAhorcado:
             if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
                 self.botton_letra.config(state='disabled')
       
-    '''   
+      
     #Vamos actualizando la palabra mostrada, segun vamos adivinando letras
     def actualizar_mostrar_palabra(self):
         mostrar_palabra = " ".join([letra if letra in self.intentos_correctos else "_" for letra in self.palabra_secreta])
@@ -109,8 +104,8 @@ class JuegoDelAhorcado:
         if set(self.palabra_secreta).issubset(self.intentos_correctos):
             self.mostrar_mensajes('FELICIDADES!, HA GANADO EL JUEGO')
         elif self.num_intentos_incorrectos == 0:
-            self.mostrar_mensajes(f'LO SENTIMOS!, HA CONSUMIDO TODOS LOS INTENTOS, LA PALABRA SECRETA ERA:')
-            self.mostrar_mensajes(f' "{self.palabra_secreta}" ')
+            self.mostrar_mensajes(f"LO SENTIMOS!, HA CONSUMIDO TODOS LOS INTENTOS, LA PALABRA SECRETA ERA:\n{self.palabra_secreta}")
+            
     # y mostramos el mensaje correspondiente en cada caso
     def mostrar_mensajes(self,mensaje):
         self.ventana_botones_alfabeto.pack_forget() # quitar botones del alfabeto para mostrar mensajes
@@ -187,14 +182,16 @@ class JuegoDelAhorcado:
         soga.place(x=250,y=58)
     
 
-    def reiniciar (self):
+    def reiniciar(self):
         
         m.Juego(self.ventana)
         self.mostrar_palabra.pack_forget()
         self.ventana_botones_alfabeto.pack_forget()
         self.ventana2.pack_forget()
         self.boton_reinicio.pack_forget()
-        #self.mensajes_fin_juego.deletecommand(name=self.mostrar_mensajes)
+        if hasattr(self, 'mensajes_fin_juego') and self.mensajes_fin_juego.winfo_exists():
+            self.mensajes_fin_juego.pack_forget()
+        
         
 
         

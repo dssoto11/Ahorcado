@@ -91,8 +91,8 @@ class JuegoDelAhorcado:
         if set(self.palabra_secreta).issubset(self.intentos_correctos):
             self.mostrar_mensajes('FELICIDADES!, HA GANADO EL JUEGO')
         elif self.num_intentos_incorrectos == 0:
-            self.mostrar_mensajes(f'LO SENTIMOS!, HA CONSUMIDO TODOS LOS INTENTOS, LA PALABRA SECRETA ERA:')
-            self.mostrar_mensajes(f' "{self.palabra_secreta}" ')
+            self.mostrar_mensajes(f"LO SENTIMOS!, HA CONSUMIDO TODOS LOS INTENTOS, LA PALABRA SECRETA ERA:\n{self.palabra_secreta}")
+            
 
     # y mostramos el mensaje correspondiente en cada caso
     def mostrar_mensajes(self,mensaje):
@@ -175,7 +175,8 @@ class JuegoDelAhorcado:
         self.ventana_botones_alfabeto.pack_forget()
         self.ventana2.pack_forget()
         self.boton_reinicio.pack_forget()
-        self.mensajes_fin_juego.pack_forget()
+        if hasattr(self, 'mensajes_fin_juego') and self.mensajes_fin_juego.winfo_exists():
+            self.mensajes_fin_juego.pack_forget()
         
         
         

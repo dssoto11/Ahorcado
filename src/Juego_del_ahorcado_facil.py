@@ -48,8 +48,16 @@ class JuegoDelAhorcado:
     #creacion de los botones con todas las letras del alfabeto, para ir eligiendo las letras 
     def botones_del_alfabeto(self):
         alfabeto = 'ABCDEFGHIJKLMNÑOPQRSTUVXYZ'
-        self.primera_mitad = alfabeto[:13]
-        self.segunda_mitad = alfabeto[13:]
+        self.alfabeto1 = alfabeto[:13]
+        self.alfabeto2 = alfabeto[13:]
+        self.primera_mitad = []
+        self.segunda_mitad = []
+
+        for letra in self.alfabeto1:
+            self.primera_mitad.append(letra)
+            
+        for letra in self.alfabeto2:
+            self.segunda_mitad.append(letra)
 
         self.ventana_botones_alfabeto = Frame(self.ventana)
         self.ventana_botones_alfabeto.pack(pady=10)
@@ -60,12 +68,31 @@ class JuegoDelAhorcado:
         self.ventana_segunda_mitad.pack()
 
         for letra in self.primera_mitad:
-            self.botton_letra = Button(self.ventana_primera_mitad, text=letra, command=lambda l=letra: self.adivinar_letra(l), width=4, height=2,font="consolas 10 bold",fg='black',bg='light green')
+
+            self.botton_letra = Button(master=self.ventana_primera_mitad, 
+                                       text=letra, 
+                                       command=lambda l=letra: self.adivinar_letra(l), 
+                                       width=4,
+                                       height=2,
+                                       font="consolas 10 bold",
+                                       fg='black',
+                                       bg='light green',
+                                       state='normal')
+            
             self.botton_letra.pack(side='left',padx=2,pady=2)
+            print(self.botton_letra)
             
 
         for letra in self.segunda_mitad:
-            self.botton_letra= Button(self.ventana_segunda_mitad, text=letra, command=lambda l=letra: self.adivinar_letra(l), width=4, height=2,font="consolas 10 bold",fg='black',bg='light green')
+            self.botton_letra= Button(self.ventana_segunda_mitad,
+                                       text=letra,
+                                       command=lambda l=letra: self.adivinar_letra(l),
+                                       width=4,
+                                       height=2,
+                                       font="consolas 10 bold",
+                                       fg='black',
+                                       bg='light green',
+                                       state='normal')
             self.botton_letra.pack(side='left',padx=2,pady=2)
             
       
@@ -75,7 +102,7 @@ class JuegoDelAhorcado:
     def adivinar_letra(self,letra):
         if letra in self.palabra_secreta and letra not in self.intentos_correctos:
             self.intentos_correctos.add(letra)
-
+            
         elif letra not in self.intentos_incorrectos:
             self.intentos_incorrectos.add(letra)
             self.num_intentos_incorrectos -= 1
@@ -85,14 +112,11 @@ class JuegoDelAhorcado:
         self.actualizar_mostrar_palabra()
         self.chequear_condicion_ganadora()       
     
-        for letra in self.primera_mitad:
-            if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
-                self.botton_letra.config(state='disabled')
 
-        for letra in self.segunda_mitad:
-            if letra in self.intentos_correctos or letra in self.intentos_incorrectos:
-                self.botton_letra.config(state='disabled')
-      
+
+
+
+
       
     #Vamos actualizando la palabra mostrada, segun vamos adivinando letras
     def actualizar_mostrar_palabra(self):
